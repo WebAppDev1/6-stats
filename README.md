@@ -1,1 +1,1 @@
-# 6-stats
+# Statistics Lab

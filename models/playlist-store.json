@@ -1,0 +1,64 @@
+{
+  "playlistCollection": [
+    {
+      "id": "01",
+      "title": "Beethoven Sonatas",
+      "songs": [
+        {
+          "id": "03",
+          "title": "Piano Sonata No. 3",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": 5
+        },
+        {
+          "id": "07",
+          "title": "Piano Sonata No. 7",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": 4
+        },
+        {
+          "id": "10",
+          "title": "Piano Sonata No. 10",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": 6
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Beethoven Concertos",
+      "songs": [
+        {
+          "id": "07",
+          "title": "Piano Concerto No. 0",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": 17
+        },
+        {
+          "id": "08",
+          "title": "Piano Concerto No. 4",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": 25
+        },
+        {
+          "id": "09",
+          "title": "Piano Concerto No. 6",
+          "artist": "Beethoven",
+          "genre": "Classical",
+          "duration": "21"
+        }
+      ]
+    },
+    {
+      "id": "368df8de-6e30-4ab7-86a9-c7ef304302f8",
+      "title": "Beethoven Unfinished Symphonies",
+      "songs": [],
+      "date": "2024-03-15T14:40:08.086Z"
+    }
+  ]
+}
