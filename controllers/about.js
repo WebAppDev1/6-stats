@@ -1,11 +1,10 @@
-'use strict';
+"use strict";
 
 import logger from "../utils/logger.js";
 import playlistStore from "../models/playlist-store.js";
 
 const about = {
   createView(request, response) {
-    
     // app statistics calculations
     const playlists = playlistStore.getAllPlaylists();
 
@@ -13,44 +12,58 @@ const about = {
     let numPlaylists = playlists.length;
     let numSongs = 0;
     for (let item of playlists) {
-        numSongs += item.songs.length;
+      numSongs += item.songs.length;
     }
-    
+
     // average
-    let average = (numSongs/numPlaylists).toFixed(2);
+    let average = 0;
+    if (numPlaylists > 0) {
+      average = (numSongs / numPlaylists).toFixed(2);
+    }
 
     // largest
     let currentLargest = 0;
     let largestPlaylistTitle = "";
     for (let playlist of playlists) {
-      if(playlist.songs.length > currentLargest){
+      if (playlist.songs.length > currentLargest) {
         currentLargest = playlist.songs.length;
-        largestPlaylistTitle = playlist.title;
+      }
+    }
+
+    for (let playlist of playlists) {
+      if (playlist.songs.length === currentLargest) {
+        largestPlaylistTitle += playlist.title + ", ";
       }
     }
 
     // smallest
     let currentSmallest = playlists[0].songs.length;
-    let smallestPlaylistTitle = playlists[0].title;
+    let smallestPlaylistTitle = "";
     for (let playlist of playlists) {
-        if(playlist.songs.length < currentSmallest){
-            currentSmallest = playlist.songs.length;
-            smallestPlaylistTitle = playlist.title;
-        }
+      if (playlist.songs.length < currentSmallest) {
+        currentSmallest = playlist.songs.length;
+      }
     }
-    
+
+    for (let playlist of playlists) {
+      if (playlist.songs.length === currentSmallest) {
+        smallestPlaylistTitle += playlist.title + ", ";
+      }
+    }
+
     logger.info("About page loading!");
-    
+
     const viewData = {
-      title: "Playlist App About",      
+      title: "Playlist App About",
       displayNumPlaylists: numPlaylists,
-      displayNumSongs: numSongs, 
+      displayNumSongs: numSongs,
       average: average,
-      smallest: smallestPlaylistTitle,
-      largest: largestPlaylistTitle
+      largest: largestPlaylistTitle.substring(0, largestPlaylistTitle.length-2),
+      smallest: smallestPlaylistTitle.substring(0, smallestPlaylistTitle.length-2),
+  
     };
-    
-    response.render('about', viewData);
+
+    response.render("about", viewData);
   },
 };
 
