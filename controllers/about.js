@@ -20,8 +20,8 @@ const about = {
     if (numPlaylists > 0) {
       average = (numSongs / numPlaylists).toFixed(2);
     }
-
-    // largest
+    
+        // largest
     let currentLargest = 0;
     let largestPlaylistTitle = "";
     for (let playlist of playlists) {
@@ -32,7 +32,7 @@ const about = {
 
     for (let playlist of playlists) {
       if (playlist.songs.length === currentLargest) {
-        largestPlaylistTitle += playlist.title + ", ";
+        largestPlaylistTitle = largestPlaylistTitle ? largestPlaylistTitle + ", " + playlist.title : playlist.title;
       }
     }
 
@@ -47,7 +47,7 @@ const about = {
 
     for (let playlist of playlists) {
       if (playlist.songs.length === currentSmallest) {
-        smallestPlaylistTitle += playlist.title + ", ";
+        smallestPlaylistTitle = smallestPlaylistTitle ? smallestPlaylistTitle + ", " + playlist.title : playlist.title;
       }
     }
 
@@ -58,9 +58,8 @@ const about = {
       displayNumPlaylists: numPlaylists,
       displayNumSongs: numSongs,
       average: average,
-      largest: largestPlaylistTitle.substring(0, largestPlaylistTitle.length-2),
-      smallest: smallestPlaylistTitle.substring(0, smallestPlaylistTitle.length-2),
-  
+      largest: largestPlaylistTitle,
+      smallest: smallestPlaylistTitle
     };
 
     response.render("about", viewData);
