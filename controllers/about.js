@@ -2,68 +2,89 @@
 
 import logger from "../utils/logger.js";
 import playlistStore from "../models/playlist-store.js";
+import accounts from './accounts.js';
 
 const about = {
+  
   createView(request, response) {
-    // app statistics calculations
-    const playlists = playlistStore.getAllPlaylists();
+  
+    const loggedInUser = accounts.getCurrentUser(request);
 
-    // song and playlist totals
-    let numPlaylists = playlists.length;
-    let numSongs = 0;
-    for (let item of playlists) {
-      numSongs += item.songs.length;
-    }
+    if (loggedInUser) {
+      
+      // initialise all variables
+      let numPlaylists = 0;
+      let numSongs = 0;
+      let average = 0;
+      let currentLargest = 0;
+      let largestPlaylistTitle = "";
+      let currentSmallest = 0;
+      let smallestPlaylistTitle = "";
 
-    // average
-    let average = 0;
-    if (numPlaylists > 0) {
-      average = (numSongs / numPlaylists).toFixed(2);
-    }
-    
+      // get the user's playlists
+      const playlists = playlistStore.getUserPlaylists(loggedInUser.id);
+
+      // if there are playlists, do the statistics calculations
+      if(playlists.length > 0){
+        
+        // song and playlist totals
+        numPlaylists = playlists.length;
+
+        for (let item of playlists) {
+          numSongs += item.songs.length;
+        }
+
+        // average
+        if (numPlaylists > 0) {
+          average = (numSongs / numPlaylists).toFixed(2);
+        }
+
         // largest
-    let currentLargest = 0;
-    let largestPlaylistTitle = "";
-    for (let playlist of playlists) {
-      if (playlist.songs.length > currentLargest) {
-        currentLargest = playlist.songs.length;
+        for (let playlist of playlists) {
+          if (playlist.songs.length > currentLargest) {
+            currentLargest = playlist.songs.length;
+          }
+        }
+
+        for (let playlist of playlists) {
+          if (playlist.songs.length === currentLargest) {
+            largestPlaylistTitle = largestPlaylistTitle ? largestPlaylistTitle + ", " + playlist.title : playlist.title;
+          }
+        }
+
+        // smallest
+        currentSmallest = playlists[0].songs.length;
+        for (let playlist of playlists) {
+          if (playlist.songs.length < currentSmallest) {
+            currentSmallest = playlist.songs.length;
+          }
+        }
+
+        for (let playlist of playlists) {
+          if (playlist.songs.length === currentSmallest) {
+            smallestPlaylistTitle = smallestPlaylistTitle ? smallestPlaylistTitle + ", " + playlist.title : playlist.title;
+          }
+        }
+
       }
+
+      logger.info("About page loading!");
+
+      const viewData = {
+        title: "Playlist App About",
+        displayNumPlaylists: numPlaylists,
+        displayNumSongs: numSongs,
+        average: average,
+        largest: largestPlaylistTitle,
+        smallest: smallestPlaylistTitle
+      };
+
+      response.render("about", viewData);
     }
-
-    for (let playlist of playlists) {
-      if (playlist.songs.length === currentLargest) {
-        largestPlaylistTitle = largestPlaylistTitle ? largestPlaylistTitle + ", " + playlist.title : playlist.title;
-      }
-    }
-
-    // smallest
-    let currentSmallest = playlists[0].songs.length;
-    let smallestPlaylistTitle = "";
-    for (let playlist of playlists) {
-      if (playlist.songs.length < currentSmallest) {
-        currentSmallest = playlist.songs.length;
-      }
-    }
-
-    for (let playlist of playlists) {
-      if (playlist.songs.length === currentSmallest) {
-        smallestPlaylistTitle = smallestPlaylistTitle ? smallestPlaylistTitle + ", " + playlist.title : playlist.title;
-      }
-    }
-
-    logger.info("About page loading!");
-
-    const viewData = {
-      title: "Playlist App About",
-      displayNumPlaylists: numPlaylists,
-      displayNumSongs: numSongs,
-      average: average,
-      largest: largestPlaylistTitle,
-      smallest: smallestPlaylistTitle
-    };
-
-    response.render("about", viewData);
-  },
+          
+    else response.redirect('/');
+  }
+  
 };
 
 export default about;
