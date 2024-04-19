@@ -1,1 +1,1 @@
-# Sessions lab test
+# Statistics Lab

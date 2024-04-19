@@ -45,11 +45,6 @@ const playlistStore = {
   editPlaylist(playlistId, updatedPlaylist) {
     this.store.editCollection(this.collection, playlistId, updatedPlaylist);
   },
-  
-  getUserPlaylists(userid) {
-    return this.store.findBy(this.collection, (playlist => playlist.userid === userid));
-  },
-  
 };
 
 export default playlistStore;
