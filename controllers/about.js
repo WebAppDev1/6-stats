@@ -18,36 +18,27 @@ const about = {
     // average
     let average = 0;
     if (numPlaylists > 0) {
-      average = (numSongs / numPlaylists).toFixed(2);
+      average = (numSongs / numPlaylists).toFixed(1);
     }
     
-        // largest
-    let currentLargest = 0;
-    let largestPlaylistTitle = "";
+    // largest 
+    let largestTitleList = "";
+    let longestLength = Math.max(...playlists.map((playlist) => playlist.songs.length)); 
+    
     for (let playlist of playlists) {
-      if (playlist.songs.length > currentLargest) {
-        currentLargest = playlist.songs.length;
+      if (playlist.songs.length === longestLength) {
+        largestTitleList = largestTitleList ? largestTitleList + ", " + playlist.title : playlist.title;
       }
     }
-
-    for (let playlist of playlists) {
-      if (playlist.songs.length === currentLargest) {
-        largestPlaylistTitle = largestPlaylistTitle ? largestPlaylistTitle + ", " + playlist.title : playlist.title;
-      }
-    }
-
+   
+    
     // smallest
-    let currentSmallest = playlists[0].songs.length;
-    let smallestPlaylistTitle = "";
+    let smallestTitleList = "";
+    let shortestLength = Math.min(...playlists.map((playlist) => playlist.songs.length)); 
+    
     for (let playlist of playlists) {
-      if (playlist.songs.length < currentSmallest) {
-        currentSmallest = playlist.songs.length;
-      }
-    }
-
-    for (let playlist of playlists) {
-      if (playlist.songs.length === currentSmallest) {
-        smallestPlaylistTitle = smallestPlaylistTitle ? smallestPlaylistTitle + ", " + playlist.title : playlist.title;
+      if (playlist.songs.length === shortestLength) {
+        smallestTitleList = smallestTitleList ? smallestTitleList + ", " + playlist.title : playlist.title;
       }
     }
 
@@ -58,8 +49,8 @@ const about = {
       displayNumPlaylists: numPlaylists,
       displayNumSongs: numSongs,
       average: average,
-      largest: largestPlaylistTitle,
-      smallest: smallestPlaylistTitle
+      largest: largestTitleList,
+      smallest: smallestTitleList
     };
 
     response.render("about", viewData);

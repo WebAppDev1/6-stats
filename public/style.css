@@ -13,11 +13,12 @@ body {
   background-color: lightgrey;
 }
 
-.hide, .hidep{
-  display: none;
+.editSubmit {
+  border:none;
+  background: none;
 }
 
-table.ui.striped.unstackable.table {
-  display: block;
-  overflow-x: scroll;
+.hide{
+    display: none;
 }
+
